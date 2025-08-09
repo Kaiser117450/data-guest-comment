@@ -136,7 +136,7 @@
 
             <div>
                 <p style="font-size: 0.9rem; opacity: 0.9; line-height: 1.6;">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    Kami yakin dengan guest comment ini, kami dapat meningkatkan kualitas pelayanan dan produk kami.
                 </p>
             </div>
         </div>
@@ -149,7 +149,7 @@
 
         <!-- Copyright -->
         <div style="text-align: center; margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.2); font-size: 0.8rem; opacity: 0.8;">
-            © 2024 Guest Comment Dashboard. All rights reserved.
+            Hasil Guest Comment ini diambil dari data real dari customer yang datang ke gerai kami.
         </div>
     </div>
 </footer>
@@ -159,6 +159,13 @@
 const SCORE_MAP = { high:5, medium:3, low:-1, null:0 };
 // Isi link Google Drive di sini jika sudah tersedia
 // Contoh: datasetLinks["Ahmad Yani"] = "https://drive.google.com/your-folder";
+datasetLinks["Ahmad Yani"] = "https://drive.google.com/drive/folders/18qpEWtEuJGveNTlhgwjGGsQwaZ18tWKU?usp=sharing";
+datasetLinks["Dalung"] = "https://drive.google.com/drive/folders/1yOu755MUpS0tpcF2ny2y38HoEsAzlu9T?usp=drive_link";
+datasetLinks["Mengwi"] = "https://drive.google.com/drive/folders/1NXoXuvTULNJFMbfsAYVOen1PQegIts5w?usp=drive_link";
+datasetLinks["Panjer"] = "https://drive.google.com/drive/folders/1uu4LDZPa2YkkruAXdREI7mlmEqFOGVvE?usp=drive_link";
+datasetLinks["Pemogan"] = "https://drive.google.com/drive/folders/1vokeHJlKUUIYxdo_xMU2yh1Il0K_Hb5R?usp=drive_link";
+datasetLinks["TP"] = "https://drive.google.com/drive/folders/1WAweYJDCRXBsxVmxXJ7j9QTzFHe_l0lH?usp=drive_link";
+
 const datasetLinks = {};
 function mapValue(v){ if(!v||v==='NULL'||v==='-'||v==='(tidak diisi)'||v==='(coretan)')return 0; const t=v.toLowerCase(); if(t.includes('sekali'))return 5; if(t.includes('tidak'))return -1; if(t.includes('enak')||t.includes('baik')||t.includes('nyaman')||t.includes('bersih'))return 4; if(t.includes('biasa'))return 3; return 0; }
 function process(){

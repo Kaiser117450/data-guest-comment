@@ -48,7 +48,91 @@
         td { font-size:.85rem; }
         .table-wrap { background: var(--card-bg); border-radius: var(--radius); padding:20px; overflow:auto; }
         .tag { background:var(--bg); border:1px solid #e5e7eb; padding:2px 6px; border-radius:6px; font-size:.75rem; color:var(--muted); }
-        @media(max-width:768px){ .chart-grid{grid-template-columns:1fr;} }
+        
+        /* Mobile-friendly table */
+        @media(max-width:768px){ 
+            .chart-grid{grid-template-columns:1fr;}
+            .table-wrap { padding: 16px; overflow: visible; }
+            .desktop-table { display: none; }
+            .mobile-cards { display: block; }
+        }
+        @media(min-width:769px){
+            .mobile-cards { display: none; }
+            .desktop-table { display: table; }
+        }
+        
+        /* Mobile card styles */
+        .mobile-cards {
+            display: none;
+            gap: 16px;
+        }
+        .comment-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        .comment-card .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .comment-card .customer-info h4 {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 4px;
+        }
+        .comment-card .customer-info p {
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin-bottom: 2px;
+        }
+        .comment-card .score {
+            background: var(--primary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            min-width: 60px;
+            text-align: center;
+        }
+        .comment-card .ratings {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .comment-card .rating-item {
+            background: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        .comment-card .rating-item .label {
+            font-size: 0.75rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        .comment-card .rating-item .value {
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .comment-card .comment-text {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            color: #374151;
+        }
             /* Toolbar */
         .toolbar {display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px;}
         .toolbar select,.toolbar input{padding:8px 10px;border:1px solid #e5e7eb;border-radius:8px;background:#fff;font-size:.85rem;}
@@ -210,7 +294,9 @@
             <input type="text" id="txtSearch" placeholder="Cari komentar atau nama..." style="flex:1;" />
         </div>
         <h3 style="margin-bottom:12px;font-weight:600;">Daftar Komentar</h3>
-        <table id="tblReviews">
+        
+        <!-- Desktop Table -->
+        <table id="tblReviews" class="desktop-table">
             <thead>
                 <tr>
                     <th>Gerai</th>
@@ -226,6 +312,9 @@
             </thead>
             <tbody></tbody>
         </table>
+        
+        <!-- Mobile Cards -->
+        <div id="mobileCards" class="mobile-cards"></div>
     </div>
 </div>
 
@@ -327,6 +416,7 @@ function charts(data){
   new Chart(ctx2,{type:'pie',data:{labels,datasets:[{data:data.summary.map(g=>g.count),backgroundColor:['#6366f1','#60a5fa','#34d399','#fbbf24','#f87171','#a78bfa']}]},options:{plugins:{legend:{position:'bottom'}}}});
 }
 function table(rows){
+  // Desktop table
   const tbody=document.querySelector('#tblReviews tbody');
   tbody.innerHTML=rows.map(r=>{
     // Find phone number from csvData
@@ -360,6 +450,64 @@ function table(rows){
       <td style="text-align:center;font-weight:600">${r.avg}</td>
       <td>${r.komentar}</td>
     </tr>`;
+  }).join('');
+  
+  // Mobile cards
+  const mobileContainer = document.getElementById('mobileCards');
+  mobileContainer.innerHTML = rows.map(r => {
+    // Find phone number from csvData
+    let phoneNumber = '';
+    Object.entries(csvData).forEach(([gerai,data])=>{
+      if(gerai === r.gerai) {
+        for(let i=1;i<data.length;i++){
+          if(data[i][0] === r.nama) {
+            phoneNumber = data[i][1] || '';
+            break;
+          }
+        }
+      }
+    });
+    
+    const tooltipText = phoneNumber ? `📞 ${phoneNumber}` : '📞 Tidak ada nomor';
+    
+    return `
+      <div class="comment-card">
+        <div class="header">
+          <div class="customer-info">
+            <h4>
+              <span class="customer-name">
+                ${r.nama}
+                <span class="tooltip">${tooltipText}</span>
+              </span>
+            </h4>
+            <p>📍 ${r.alamat}</p>
+            <p>🏪 ${r.gerai}</p>
+          </div>
+          <div class="score">${r.avg}</div>
+        </div>
+        
+        <div class="ratings">
+          <div class="rating-item">
+            <div class="label">Makanan</div>
+            <div class="value">${r.makanan}</div>
+          </div>
+          <div class="rating-item">
+            <div class="label">Pelayanan</div>
+            <div class="value">${r.pelayanan}</div>
+          </div>
+          <div class="rating-item">
+            <div class="label">Kenyamanan</div>
+            <div class="value">${r.kenyamanan}</div>
+          </div>
+          <div class="rating-item">
+            <div class="label">Kebersihan</div>
+            <div class="value">${r.kebersihan}</div>
+          </div>
+        </div>
+        
+        ${r.komentar ? `<div class="comment-text">💬 ${r.komentar}</div>` : ''}
+      </div>
+    `;
   }).join('');
 }
 function applyFilters(rows){

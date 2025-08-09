@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -244,12 +245,12 @@
             th,td{padding:8px}
             .container { padding: 16px; }
             /* Footer responsive */
-            footer .container > div:first-child {
+            .footer-grid {
                 grid-template-columns: 1fr !important;
                 gap: 20px !important;
                 text-align: center;
             }
-            footer .container > div:first-child > div:first-child {
+            .footer-grid > div:first-child {
                 justify-content: center;
             }
             .mobile-comment-ratings {
@@ -338,7 +339,7 @@
 <!-- Footer -->
 <footer style="background: #dc2626; color: white; margin-top: 40px; padding: 32px 0;">
     <div class="container">
-        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 32px; align-items: center;">
+        <div class="footer-grid" style="display: grid; grid-template-columns: 1fr 2fr; gap: 32px; align-items: center;">
             <!-- Logo dan Scoring Info -->
             <div style="display: flex; align-items: center; gap: 20px;">
                 <div id="logo-container" class="logo-click" style="width: 60px; height: 60px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; color: #dc2626;">
@@ -433,9 +434,15 @@ function charts(data){
   new Chart(ctx2,{type:'pie',data:{labels,datasets:[{data:data.summary.map(g=>g.count),backgroundColor:['#6366f1','#60a5fa','#34d399','#fbbf24','#f87171','#a78bfa']}]},options:{plugins:{legend:{position:'bottom'}}}});
 }
 function table(rows){
-  // Desktop table
-  const tbody=document.querySelector('#tblReviews tbody');
-  tbody.innerHTML=rows.map(r=>{
+  try {
+    // Desktop table
+    const tbody=document.querySelector('#tblReviews tbody');
+    if(!tbody) {
+      console.error('Table body not found');
+      return;
+    }
+    
+    tbody.innerHTML=rows.map(r=>{
     // Find phone number from csvData
     let phoneNumber = '';
     Object.entries(csvData).forEach(([gerai,data])=>{
@@ -471,6 +478,11 @@ function table(rows){
   
   // Mobile cards
   const mobileContainer = document.getElementById('mobileComments');
+  if(!mobileContainer) {
+    console.error('Mobile container not found');
+    return;
+  }
+  
   mobileContainer.innerHTML = rows.map(r => {
     // Find phone number from csvData
     let phoneNumber = '';
@@ -527,6 +539,10 @@ function table(rows){
       </div>
     `;
   }).join('');
+  
+  } catch(error) {
+    console.error('Error in table function:', error);
+  }
 }
 function applyFilters(rows){
   const geraiVal=document.getElementById('filterGerai').value;
@@ -553,6 +569,9 @@ window.addEventListener('DOMContentLoaded',()=>{
   const refresh=()=>{table(applyFilters(currentRows));};
   refresh();
   ['filterGerai','selCategory','txtSearch'].forEach(id=>document.getElementById(id).addEventListener('input',refresh));
+  
+  // Debug: Check if data is loaded
+  console.log('Data loaded:', data.rowsAll.length, 'rows');
   
   // Setup dataset link
   document.getElementById('dataset-link').href = DATASET_URL;

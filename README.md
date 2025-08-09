@@ -1,114 +1,122 @@
-# 🍗 Analisis Guest Comment Enakko
+# 📊 Dashboard Analisis Guest Comment
 
-Aplikasi web interaktif untuk menganalisis guest comment dari berbagai gerai Enakko dengan visualisasi yang menarik dan informatif.
+Dashboard interaktif untuk menganalisis komentar tamu dari berbagai gerai dengan visualisasi yang mudah dipahami dan sistem scoring otomatis.
 
-## ✨ Fitur Utama
+## 🌟 Fitur Utama
 
-- **📊 Dashboard Utama**: Overview metrics dan visualisasi utama
-- **⭐ Rating Analysis**: Analisis detail rating per kategori
-- **💬 Sentiment Analysis**: Analisis sentimen komentar dengan wordcloud
-- **📈 Trend Analysis**: Perbandingan antar gerai
-- **🔍 Detail Comments**: Tabel detail komentar dengan fitur download
+- **📋 Summary Cards**: Ringkasan total review dan ranking gerai terbaik
+- **📊 Visualisasi Interaktif**: Bar chart per aspek dan distribusi review
+- **🔍 Filter Canggih**: Filter berdasarkan gerai, kategori, dan pencarian teks
+- **⭐ Sistem Scoring**: Penilaian otomatis dengan skala yang konsisten
+- **📱 Responsive Design**: Tampilan optimal di semua perangkat
 
-## 🚀 Cara Menjalankan Aplikasi
+## 🎯 Live Demo
 
-### 1. Install Dependensi
+Akses dashboard: [https://kaiser117450.github.io/data-guest-comment/](https://kaiser117450.github.io/data-guest-comment/)
 
-```bash
-pip install -r requirements.txt
-```
+## 📈 Sistem Penilaian
 
-### 2. Jalankan Aplikasi
+Dashboard menggunakan sistem scoring otomatis:
 
-```bash
-streamlit run app.py
-```
+- **Enak Sekali / Baik Sekali** = 5 poin
+- **Enak / Baik / Nyaman / Bersih** = 4 poin  
+- **Biasa** = 3 poin
+- **Tidak Enak / Tidak Baik** = -1 poin
+- **Kosong / NULL** = 0 poin
 
-Aplikasi akan terbuka di browser dengan URL: `http://localhost:8501`
+## 🔧 Cara Menggunakan
+
+### 1. Filter Data
+- **Gerai**: Pilih gerai spesifik atau lihat semua
+- **Kategori**: 
+  - Paling Positif (skor ≥ 4.0)
+  - Paling Kritis (skor ≤ 2.5)
+- **Pencarian**: Cari berdasarkan nama, alamat, atau komentar
+
+### 2. Analisis Visual
+- **Bar Chart**: Perbandingan skor per aspek (Makanan, Pelayanan, Kenyamanan, Kebersihan)
+- **Pie Chart**: Distribusi jumlah review per gerai
+- **Ranking Cards**: Peringkat gerai berdasarkan rata-rata skor
+
+### 3. Detail Review
+Tabel lengkap menampilkan:
+- Informasi customer (nama, alamat)
+- Rating per aspek
+- Skor rata-rata
+- Komentar lengkap
 
 ## 📁 Struktur Data
 
-Aplikasi ini membaca file CSV dengan format berikut:
+Data diproses dari file CSV dengan kolom:
 
 | Kolom | Deskripsi |
 |-------|-----------|
 | Nama | Nama customer |
 | No HP/WA | Nomor telepon/WhatsApp |
 | Alamat | Alamat customer |
-| Rate Makanan | Rating makanan (Enak Sekali/Enak/Biasa/dll) |
-| Rate Pelayanan | Rating pelayanan (Baik Sekali/Baik/Biasa/dll) |
-| Rate Kenyamanan | Rating kenyamanan (Nyaman Sekali/Nyaman/dll) |
-| Rate Kebersihan | Rating kebersihan (Bersih Sekali/Bersih/dll) |
-| Kritik dan Saran | Komentar bebas customer |
+| Rate Makanan | Rating makanan |
+| Rate Pelayanan | Rating pelayanan |
+| Rate Kenyamanan | Rating kenyamanan |
+| Rate Kebersihan | Rating kebersihan |
+| Kritik dan Saran | Komentar customer |
 
-## 🎨 Fitur Visualisasi
+## 🛠️ Teknologi
 
-### Dashboard Utama
-- **Metric Cards**: Total comments, rata-rata rating, positive/negative comments
-- **Rating Comparison**: Bar chart perbandingan rating per kategori
-- **Sentiment Distribution**: Pie chart distribusi sentimen
+- **HTML5 + CSS3**: Structure dan styling modern
+- **JavaScript (ES6)**: Logic dan interaktivity
+- **Chart.js**: Visualisasi data interaktif
+- **Google Fonts (Inter)**: Typography yang clean
+- **GitHub Pages**: Hosting gratis
 
-### Rating Analysis
-- **Correlation Heatmap**: Korelasi antar rating
-- **Rating Distribution**: Histogram distribusi rating
-- **Box Plot**: Statistik rating per kategori
+## 📊 Insight yang Diperoleh
 
-### Sentiment Analysis
-- **Word Cloud**: Visualisasi kata-kata yang sering muncul
-- **Sentiment by Rating**: Hubungan sentimen dengan rating
-- **Top Comments**: Komentar positif dan negatif teratas
+1. **Performa Gerai**: Ranking berdasarkan rata-rata skor
+2. **Analisis Aspek**: Identifikasi area yang perlu perbaikan
+3. **Customer Feedback**: Sentiment dari komentar tamu
+4. **Trend Positif/Negatif**: Filter komentar berdasarkan skor
+5. **Data Actionable**: Basis untuk pengambilan keputusan
 
-### Trend Analysis
-- **Gerai Comparison**: Perbandingan rating antar gerai
-- **Sentiment by Gerai**: Distribusi sentimen per gerai
+## 🚀 Setup Lokal
 
-## 🔧 Konfigurasi
+```bash
+# Clone repository
+git clone https://github.com/Kaiser117450/data-guest-comment.git
 
-### Filter Data
-- Pilih gerai spesifik atau lihat semua gerai
-- Filter otomatis berdasarkan data yang tersedia
+# Masuk ke direktori
+cd data-guest-comment
 
-### Download Data
-- Export data yang sudah dianalisis ke format CSV
-- Nama file otomatis sesuai gerai yang dipilih
+# Buka di browser
+open index.html
+```
 
-## 📊 Analisis Sentimen
+## 📝 Pengembangan
 
-Aplikasi menggunakan analisis sentimen sederhana berdasarkan kata kunci:
+### Proses Data
+1. **Input**: File CSV guest comment per gerai
+2. **Processing**: Python script (`process_csv_data.py`) mengkonversi ke format JavaScript
+3. **Output**: File `csv_data.js` untuk dashboard
 
-**Kata Positif**: enak, baik, nyaman, bersih, mantap, terbaik, perfect, bagus, ramah, sukses, semangat, love, ♥️, ❤️, ☆, ✓
+### Update Data
+```bash
+# Jalankan processor jika ada data CSV baru
+python process_csv_data.py
 
-**Kata Negatif**: kurang, tidak, jelek, buruk, panas, dingin, asin, pedas, kotor, berisik, lalat, asap
+# Commit dan push perubahan
+git add .
+git commit -m "Update data"
+git push origin main
+```
 
-## 🎯 Manfaat Analisis
+## 🎨 Desain
 
-1. **Identifikasi Area Perbaikan**: Melihat kategori mana yang perlu ditingkatkan
-2. **Perbandingan Antar Gerai**: Benchmark performa antar outlet
-3. **Analisis Sentimen**: Memahami mood dan kepuasan customer
-4. **Trend Monitoring**: Melihat perkembangan rating dari waktu ke waktu
-5. **Actionable Insights**: Data untuk pengambilan keputusan bisnis
+- **Modern & Clean**: Interface yang mudah dipahami
+- **Responsive**: Adaptif untuk desktop, tablet, dan mobile
+- **User-Friendly**: Navigation yang intuitif
+- **Data-Driven**: Visualisasi yang meaningful
 
-## 🛠️ Teknologi yang Digunakan
+## 📞 Support
 
-- **Streamlit**: Framework web app
-- **Pandas**: Data manipulation dan analysis
-- **Plotly**: Interactive visualizations
-- **WordCloud**: Text visualization
-- **Matplotlib/Seaborn**: Additional plotting
-
-## 📝 Catatan
-
-- Pastikan semua file CSV berada di direktori yang sama dengan `app.py`
-- Format nama file harus sesuai: `Guest Comment - [Nama Gerai].csv`
-- Aplikasi akan otomatis mendeteksi dan memuat semua file CSV yang tersedia
-
-## 🤝 Kontribusi
-
-Silakan berkontribusi untuk meningkatkan aplikasi ini dengan:
-- Menambahkan fitur analisis baru
-- Memperbaiki visualisasi
-- Menambahkan algoritma sentimen yang lebih canggih
-- Optimasi performa
+Untuk pertanyaan atau saran perbaikan, silakan buat issue di repository ini.
 
 ---
 

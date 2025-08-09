@@ -114,7 +114,7 @@
             <!-- Logo dan Scoring Info -->
             <div style="display: flex; align-items: center; gap: 20px;">
                 <div style="width: 60px; height: 60px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; color: #dc2626;">
-                    🏪
+                    <img src="logo.png" alt="Logo" style="width: 100%; height: 100%; object-fit: contain;">
                 </div>
                 <div>
                     <h4 style="margin-bottom: 8px; font-weight: 600;">Sistem Penilaian</h4>
@@ -131,16 +131,21 @@
 
             <div>
                 <p style="font-size: 0.9rem; opacity: 0.9; line-height: 1.6;">
-                    Dashboard ini menyajikan analisis komprehensif dari komentar tamu berbagai gerai dengan visualisasi yang mudah dipahami. Sistem scoring otomatis mengolah data rating dari aspek makanan, pelayanan, kenyamanan, dan kebersihan untuk menghasilkan insight yang actionable bagi perbaikan kualitas layanan.
+                    Kami harap dengan hasil guest comment ini, kami dapat meningkatkan kualitas pelayanan dan produk kami.
                 </p>
             </div>
         </div>
         
 
 
+        <!-- Dataset Link (subtle) -->
+        <div style="text-align: center; margin-top: 12px; font-size: 0.75rem; opacity: 0.7;">
+            <a href="#" id="dataset-link" style="color: rgba(255,255,255,0.8); text-decoration: none; border-bottom: 1px dotted rgba(255,255,255,0.5);">📁 Dataset Sumber (Google Drive)</a>
+        </div>
+
         <!-- Copyright -->
-        <div style="text-align: center; margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.2); font-size: 0.8rem; opacity: 0.8;">
-            © 2024 Guest Comment Dashboard. All rights reserved.
+        <div style="text-align: center; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.2); font-size: 0.8rem; opacity: 0.8;">
+            2025 Ayam Guling Enakko Bali. All rights reserved.
         </div>
     </div>
 </footer>
@@ -148,6 +153,8 @@
 <script src="csv_data.js"></script>
 <script>
 const SCORE_MAP = { high:5, medium:3, low:-1, null:0 };
+// Dataset link - ganti URL ini dengan link Google Drive Anda
+const DATASET_URL = "https://drive.google.com/drive/folders/1r4DkGkCWqQgXD6pBIU5Mq42S-dlLL72l?usp=sharing";
 
 function mapValue(v){ if(!v||v==='NULL'||v==='-'||v==='(tidak diisi)'||v==='(coretan)')return 0; const t=v.toLowerCase(); if(t.includes('sekali'))return 5; if(t.includes('tidak'))return -1; if(t.includes('enak')||t.includes('baik')||t.includes('nyaman')||t.includes('bersih'))return 4; if(t.includes('biasa'))return 3; return 0; }
 function process(){
@@ -214,6 +221,9 @@ window.addEventListener('DOMContentLoaded',()=>{
   const refresh=()=>{table(applyFilters(currentRows));};
   refresh();
   ['filterGerai','selCategory','txtSearch'].forEach(id=>document.getElementById(id).addEventListener('input',refresh));
+  
+  // Setup dataset link
+  document.getElementById('dataset-link').href = DATASET_URL;
 });
 </script>
 </body>

@@ -5,6 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Guest Comment Dashboard (Clean)</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <style>
+        @font-face {
+            font-family: 'Digitalt';
+            src: url('Digitalt.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Rubik';
+            src: url('Rubik-VariableFont_wght.ttf') format('truetype');
+            font-weight: 100 900;
+            font-style: normal;
+        }
+    </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
@@ -18,45 +32,9 @@
         * { box-sizing: border-box; margin:0;padding:0;font-family: 'Inter', sans-serif; }
         body { background: var(--bg); color: var(--text); line-height: 1.5; }
         .container { max-width: 1200px; margin: auto; padding: 24px; }
-        h1 { font-weight: 800; font-size: 2rem; position: relative; z-index: 2; }
-        .header { text-align:center; margin-bottom:32px; position: relative; }
-        .header p { color: var(--muted); margin-top:4px; }
-        .header::before,
-        .header::after {
-            content: '';
-            position: absolute;
-            height: 8px;
-            background: linear-gradient(90deg, #fbbf24, #f59e0b);
-            border-radius: 4px;
-            z-index: 1;
-            animation: slideInLeft 1.2s ease-out;
-        }
-        .header::before {
-            top: 20px;
-            left: 20%;
-            right: 30%;
-            animation-delay: 0.2s;
-            opacity: 0;
-            animation-fill-mode: forwards;
-        }
-        .header::after {
-            top: 35px;
-            left: 25%;
-            right: 20%;
-            animation-delay: 0.5s;
-            opacity: 0;
-            animation-fill-mode: forwards;
-        }
-        @keyframes slideInLeft {
-            0% {
-                transform: translateX(-100%);
-                opacity: 0;
-            }
-            100% {
-                transform: translateX(0);
-                opacity: 0.8;
-            }
-        }
+        h1 { font-family: 'Digitalt', 'Inter', sans-serif; font-weight: 800; font-size: 2rem; }
+        .header { text-align:center; margin-bottom:32px; }
+        .header p { font-family: 'Rubik', 'Inter', sans-serif; color: var(--muted); margin-top:4px; }
         .grid { display:grid; gap:20px; }
         .cards { grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); margin-bottom:32px; }
         .card { background: var(--card-bg); border-radius: var(--radius); padding:20px; box-shadow: 0 1px 3px rgba(0,0,0,.08); text-align:center; }
@@ -76,20 +54,51 @@
         .toolbar select,.toolbar input{padding:8px 10px;border:1px solid #e5e7eb;border-radius:8px;background:#fff;font-size:.85rem;}
         .toolbar label{font-size:.8rem;color:var(--muted);margin-right:4px;}
         .muted { color: var(--muted); }
+        /* Tooltip for customer names */
+        .customer-name {
+            position: relative;
+            cursor: pointer;
+            color: var(--primary);
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+        .customer-name:hover {
+            color: #4f46e5;
+        }
+        .customer-name .tooltip {
+            visibility: hidden;
+            opacity: 0;
+            position: absolute;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.9);
+            color: white;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            z-index: 1000;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            pointer-events: none;
+        }
+        .customer-name .tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 4px solid transparent;
+            border-top-color: rgba(0,0,0,0.9);
+        }
+        .customer-name:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
         @media(max-width:480px){
             h1{font-size:1.5rem}
             .card .big{font-size:1.4rem}
             th,td{padding:8px}
-            .header::before {
-                top: 15px;
-                left: 10%;
-                right: 25%;
-            }
-            .header::after {
-                top: 28px;
-                left: 15%;
-                right: 15%;
-            }
         }
     </style>
 </head>
@@ -241,7 +250,42 @@ function charts(data){
   const ctx2=document.getElementById('countChart').getContext('2d');
   new Chart(ctx2,{type:'pie',data:{labels,datasets:[{data:data.summary.map(g=>g.count),backgroundColor:['#6366f1','#60a5fa','#34d399','#fbbf24','#f87171','#a78bfa']}]},options:{plugins:{legend:{position:'bottom'}}}});
 }
-function table(rows){const tbody=document.querySelector('#tblReviews tbody');tbody.innerHTML=rows.map(r=>`<tr><td>${r.gerai}</td><td>${r.nama}</td><td>${r.alamat}</td><td>${r.makanan}</td><td>${r.pelayanan}</td><td>${r.kenyamanan}</td><td>${r.kebersihan}</td><td style="text-align:center;font-weight:600">${r.avg}</td><td>${r.komentar}</td></tr>`).join('');}
+function table(rows){
+  const tbody=document.querySelector('#tblReviews tbody');
+  tbody.innerHTML=rows.map(r=>{
+    // Find phone number from csvData
+    let phoneNumber = '';
+    Object.entries(csvData).forEach(([gerai,data])=>{
+      if(gerai === r.gerai) {
+        for(let i=1;i<data.length;i++){
+          if(data[i][0] === r.nama) {
+            phoneNumber = data[i][1] || '';
+            break;
+          }
+        }
+      }
+    });
+    
+    const tooltipText = phoneNumber ? `📞 ${phoneNumber}` : '📞 Tidak ada nomor';
+    
+    return `<tr>
+      <td>${r.gerai}</td>
+      <td>
+        <span class="customer-name">
+          ${r.nama}
+          <span class="tooltip">${tooltipText}</span>
+        </span>
+      </td>
+      <td>${r.alamat}</td>
+      <td>${r.makanan}</td>
+      <td>${r.pelayanan}</td>
+      <td>${r.kenyamanan}</td>
+      <td>${r.kebersihan}</td>
+      <td style="text-align:center;font-weight:600">${r.avg}</td>
+      <td>${r.komentar}</td>
+    </tr>`;
+  }).join('');
+}
 function applyFilters(rows){
   const geraiVal=document.getElementById('filterGerai').value;
   const cat=document.getElementById('selCategory').value;

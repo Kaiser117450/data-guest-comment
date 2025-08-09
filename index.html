@@ -48,90 +48,82 @@
         td { font-size:.85rem; }
         .table-wrap { background: var(--card-bg); border-radius: var(--radius); padding:20px; overflow:auto; }
         .tag { background:var(--bg); border:1px solid #e5e7eb; padding:2px 6px; border-radius:6px; font-size:.75rem; color:var(--muted); }
-        
-        /* Mobile-friendly table */
+        /* Responsive table for mobile */
+        .mobile-table { display: none; }
+        .desktop-table { display: block; }
         @media(max-width:768px){ 
-            .chart-grid{grid-template-columns:1fr;}
-            .table-wrap { padding: 16px; overflow: visible; }
+            .chart-grid{grid-template-columns:1fr;} 
             .desktop-table { display: none; }
-            .mobile-cards { display: block; }
-        }
-        @media(min-width:769px){
-            .mobile-cards { display: none; }
-            .desktop-table { display: table; }
-        }
-        
-        /* Mobile card styles */
-        .mobile-cards {
-            display: none;
-            gap: 16px;
-        }
-        .comment-card {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 16px;
-        }
-        .comment-card .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 12px;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        .comment-card .customer-info h4 {
-            font-weight: 600;
-            font-size: 1rem;
-            margin-bottom: 4px;
-        }
-        .comment-card .customer-info p {
-            font-size: 0.85rem;
-            color: var(--muted);
-            margin-bottom: 2px;
-        }
-        .comment-card .score {
-            background: var(--primary);
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 0.9rem;
-            min-width: 60px;
-            text-align: center;
-        }
-        .comment-card .ratings {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-        .comment-card .rating-item {
-            background: white;
-            padding: 8px 12px;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
-        }
-        .comment-card .rating-item .label {
-            font-size: 0.75rem;
-            color: var(--muted);
-            text-transform: uppercase;
-            font-weight: 600;
-            margin-bottom: 2px;
-        }
-        .comment-card .rating-item .value {
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-        .comment-card .comment-text {
-            background: white;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
-            font-size: 0.9rem;
-            line-height: 1.4;
-            color: #374151;
+            .mobile-table { display: block; }
+            .mobile-comment-card {
+                background: var(--card-bg);
+                border: 1px solid #e5e7eb;
+                border-radius: var(--radius);
+                padding: 16px;
+                margin-bottom: 12px;
+                box-shadow: 0 1px 3px rgba(0,0,0,.05);
+            }
+            .mobile-comment-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                margin-bottom: 12px;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            .mobile-comment-name {
+                font-weight: 600;
+                color: var(--primary);
+            }
+            .mobile-comment-gerai {
+                font-size: 0.8rem;
+                background: var(--primary);
+                color: white;
+                padding: 2px 8px;
+                border-radius: 12px;
+            }
+            .mobile-comment-score {
+                font-size: 1.1rem;
+                font-weight: 700;
+                color: var(--primary);
+                text-align: center;
+                background: var(--bg);
+                padding: 4px 8px;
+                border-radius: 8px;
+                min-width: 50px;
+            }
+            .mobile-comment-ratings {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+                margin-bottom: 12px;
+                font-size: 0.85rem;
+            }
+            .mobile-rating-item {
+                display: flex;
+                justify-content: space-between;
+                padding: 4px 8px;
+                background: var(--bg);
+                border-radius: 6px;
+            }
+            .mobile-rating-label {
+                color: var(--muted);
+                font-weight: 500;
+            }
+            .mobile-comment-text {
+                background: #f8fafc;
+                padding: 12px;
+                border-radius: 8px;
+                font-size: 0.9rem;
+                line-height: 1.4;
+                color: var(--text);
+                border-left: 3px solid var(--primary);
+            }
+            .mobile-comment-address {
+                font-size: 0.8rem;
+                color: var(--muted);
+                margin-top: 8px;
+            }
         }
             /* Toolbar */
         .toolbar {display:flex;gap:12px;flex-wrap:wrap;margin-bottom:12px;}
@@ -250,6 +242,29 @@
             h1{font-size:1.5rem}
             .card .big{font-size:1.4rem}
             th,td{padding:8px}
+            .container { padding: 16px; }
+            /* Footer responsive */
+            footer .container > div:first-child {
+                grid-template-columns: 1fr !important;
+                gap: 20px !important;
+                text-align: center;
+            }
+            footer .container > div:first-child > div:first-child {
+                justify-content: center;
+            }
+            .mobile-comment-ratings {
+                grid-template-columns: 1fr !important;
+            }
+            .easter-egg {
+                margin: 20px;
+                padding: 20px;
+                width: calc(100% - 40px);
+                max-width: 300px;
+            }
+            .easter-egg img {
+                width: 80px;
+                height: 80px;
+            }
         }
     </style>
 </head>
@@ -296,25 +311,27 @@
         <h3 style="margin-bottom:12px;font-weight:600;">Daftar Komentar</h3>
         
         <!-- Desktop Table -->
-        <table id="tblReviews" class="desktop-table">
-            <thead>
-                <tr>
-                    <th>Gerai</th>
-                    <th>Nama</th>
-                    <th>Alamat</th>
-                    <th>Rate Makanan</th>
-                    <th>Pelayanan</th>
-                    <th>Kenyamanan</th>
-                    <th>Kebersihan</th>
-                    <th>Skor&nbsp;Rata2</th>
-                    <th>Komentar</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
+        <div class="desktop-table">
+            <table id="tblReviews">
+                <thead>
+                    <tr>
+                        <th>Gerai</th>
+                        <th>Nama</th>
+                        <th>Alamat</th>
+                        <th>Rate Makanan</th>
+                        <th>Pelayanan</th>
+                        <th>Kenyamanan</th>
+                        <th>Kebersihan</th>
+                        <th>Skor&nbsp;Rata2</th>
+                        <th>Komentar</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
         
         <!-- Mobile Cards -->
-        <div id="mobileCards" class="mobile-cards"></div>
+        <div class="mobile-table" id="mobileComments"></div>
     </div>
 </div>
 
@@ -453,7 +470,7 @@ function table(rows){
   }).join('');
   
   // Mobile cards
-  const mobileContainer = document.getElementById('mobileCards');
+  const mobileContainer = document.getElementById('mobileComments');
   mobileContainer.innerHTML = rows.map(r => {
     // Find phone number from csvData
     let phoneNumber = '';
@@ -471,41 +488,42 @@ function table(rows){
     const tooltipText = phoneNumber ? `📞 ${phoneNumber}` : '📞 Tidak ada nomor';
     
     return `
-      <div class="comment-card">
-        <div class="header">
-          <div class="customer-info">
-            <h4>
+      <div class="mobile-comment-card">
+        <div class="mobile-comment-header">
+          <div>
+            <div class="mobile-comment-name">
               <span class="customer-name">
                 ${r.nama}
                 <span class="tooltip">${tooltipText}</span>
               </span>
-            </h4>
-            <p>📍 ${r.alamat}</p>
-            <p>🏪 ${r.gerai}</p>
+            </div>
+            <div class="mobile-comment-gerai">${r.gerai}</div>
           </div>
-          <div class="score">${r.avg}</div>
+          <div class="mobile-comment-score">${r.avg}</div>
         </div>
         
-        <div class="ratings">
-          <div class="rating-item">
-            <div class="label">Makanan</div>
-            <div class="value">${r.makanan}</div>
+        <div class="mobile-comment-ratings">
+          <div class="mobile-rating-item">
+            <span class="mobile-rating-label">Makanan</span>
+            <span>${r.makanan}</span>
           </div>
-          <div class="rating-item">
-            <div class="label">Pelayanan</div>
-            <div class="value">${r.pelayanan}</div>
+          <div class="mobile-rating-item">
+            <span class="mobile-rating-label">Pelayanan</span>
+            <span>${r.pelayanan}</span>
           </div>
-          <div class="rating-item">
-            <div class="label">Kenyamanan</div>
-            <div class="value">${r.kenyamanan}</div>
+          <div class="mobile-rating-item">
+            <span class="mobile-rating-label">Kenyamanan</span>
+            <span>${r.kenyamanan}</span>
           </div>
-          <div class="rating-item">
-            <div class="label">Kebersihan</div>
-            <div class="value">${r.kebersihan}</div>
+          <div class="mobile-rating-item">
+            <span class="mobile-rating-label">Kebersihan</span>
+            <span>${r.kebersihan}</span>
           </div>
         </div>
         
-        ${r.komentar ? `<div class="comment-text">💬 ${r.komentar}</div>` : ''}
+        ${r.komentar ? `<div class="mobile-comment-text">${r.komentar}</div>` : ''}
+        
+        <div class="mobile-comment-address">📍 ${r.alamat}</div>
       </div>
     `;
   }).join('');

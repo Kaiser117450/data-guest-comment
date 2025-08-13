@@ -1,4 +1,12 @@
-function mapValue(v){ if(!v||v==='NULL'||v==='-'||v==='(tidak diisi)'||v==='(coretan)')return 0; const t=v.toLowerCase(); if(t.includes('sekali'))return 5; if(t.includes('tidak'))return -1; if(t.includes('enak')||t.includes('baik')||t.includes('nyaman')||t.includes('bersih'))return 4; if(t.includes('biasa'))return 3; return 0; }
+function mapValue(v){
+  if(!v||v==='NULL'||v==='-'||v==='(tidak diisi)'||v==='(coretan)')return 0;
+  const t=v.toLowerCase();
+  if(t.includes('tidak'))return -1;
+  if(t.includes('sekali'))return 5;
+  if(t.includes('enak')||t.includes('baik')||t.includes('nyaman')||t.includes('bersih'))return 4;
+  if(t.includes('biasa'))return 3;
+  return 0;
+}
 
 function process(){
   const summary=[]; const rowsAll=[];
